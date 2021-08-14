@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import "./Todo.css"
+import Input from './page/input';
+import List from './page/list';
+import "./Todo.css";
 
 const baseUrl = "http://localhost:9020";
 
@@ -25,7 +27,7 @@ const Todo = () => {
         })
     }
 
-    const insertTodo = () =>{
+    const insertTodo = (setInput) =>{
         axios({
             method: "POST",
             url: baseUrl + "/todo",
@@ -34,6 +36,7 @@ const Todo = () => {
             }            
         }).then((res) => {
             setInput("");
+            console.log("insert res: ",res.data.todoName)
             window.location.reload();
         }).catch((err) => {
             console.log("insert err: ",err)
@@ -63,7 +66,8 @@ const Todo = () => {
         <div className="todo">
             <div>
                 <h1>Todo List</h1>
-                todo &nbsp;
+                <Input setInput={setInput} insertTodo={insertTodo} /> 
+                {/* todo &nbsp;
                 <input
                     type="text"
                     required={true}
@@ -71,10 +75,11 @@ const Todo = () => {
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && insertTodo(setInput)}
                 />
-                <button onClick={() => insertTodo(setInput)}>추가</button>
+                <button onClick={() => insertTodo(setInput)}>추가</button> */}
             </div>
+            <List todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
 
-            {todos ? todos.map((todolist) =>
+            {/* {todos ? todos.map((todolist) =>
                 <div key={todolist.id}>
                     <h3>
                         <label
@@ -87,7 +92,7 @@ const Todo = () => {
                 </div>
             ) : (
                 null
-            )}
+            )} */}
         </div>
     );
 };
