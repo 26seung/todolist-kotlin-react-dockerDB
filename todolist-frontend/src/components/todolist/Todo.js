@@ -62,37 +62,15 @@ const Todo = () => {
         // 마찬가지로 추가 DB 조회 없이 클라이언트에서 해결
         setTodos(todos.filter((list) => list.id !== id))  
     }
+
+    
     return (
         <div className="todo">
             <div>
                 <h1>Todo List</h1>
-                <Input setInput={setInput} insertTodo={insertTodo} /> 
-                {/* todo &nbsp;
-                <input
-                    type="text"
-                    required={true}
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && insertTodo(setInput)}
-                />
-                <button onClick={() => insertTodo(setInput)}>추가</button> */}
+                <Input setInput={setInput} insertTodo={insertTodo} />
             </div>
             <List todos={todos} updateTodo={updateTodo} deleteTodo={deleteTodo} />
-
-            {/* {todos ? todos.map((todolist) =>
-                <div key={todolist.id}>
-                    <h3>
-                        <label
-                            className={todolist.completed ? "completed" : null}
-                            onClick={() => updateTodo(todolist.id)}>
-                            {todolist.todoName}
-                        </label>
-                        <label onClick={() => deleteTodo(todolist.id)}>&nbsp;&nbsp; ❌</label>
-                    </h3>
-                </div>
-            ) : (
-                null
-            )} */}
         </div>
     );
 };
