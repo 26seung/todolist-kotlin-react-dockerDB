@@ -11,8 +11,8 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 COPY package.json /usr/src/app/package.json
 
 # 이미지 생성 과정에서 실행할 명령어
-RUN npm install  --silent
-RUN npm install react-scripts@4.0.3 -g  --silent
+RUN npm install  --legacy-peer-deps
+RUN npm install react-scripts@4.0.3 -g  --legacy-peer-deps
 
 # 소스를 작업폴더로 복사하고 앱 실행
 COPY . /usr/src/app
@@ -32,6 +32,8 @@ RUN npm run build
 
 FROM nginx:1.21.3-alpine
 
+RUN rm -rf /etc/nginx/conf.d
+COPY conf /etc/nginx
 # 위에서 생성한 앱의 빌드산출물을 nginx의 샘플 앱이 사용하던 폴더로 이동
 COPY --from=builder /usr/src/app/build /usr/share/nginx/html
 
