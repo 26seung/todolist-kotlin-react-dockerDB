@@ -1,0 +1,53 @@
+version: "3"
+services:
+  db:
+    restart: always
+    image: mysql/mysql-server:8.0.17
+    ports: 
+      - "3306:3306"    
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE : todoDB
+      MYSQL_USER: seung
+      MYSQL_PASSWORD: 1234
+    networks: 
+      - todo-net
+
+  backend:
+    restart: always
+    build: ./todolist_backend/.
+    ports: 
+      - "9020:9020"
+    depends_on:
+      - db
+    networks: 
+      - todo-net
+
+  frontend:
+    restart: always
+    build: ./todolist-frontend/.
+    ports: 
+      - "80:80"
+    depends_on:
+      - backend
+    networks: 
+      - todo-net
+    
+networks: 
+  todo-net:
+
+
+    
+    ## docker-compose 기본 명령어
+
+    # docker-compose ps                 : 컨테이너 조회 (컴포즈 파일 문제 있으면 조회도 안됨)
+
+    # docker-compose up -d              : 컨테이너 없으면 빌드 하면서 실행 
+    # docker-compose up -d --build      : 컨테이너 새롭게 빌드 하면서 실행 (변경사항 있을때 사용)
+   
+    # docker-compose down               : 컨테이너 내리면서 삭제까지 함께 진행
+    # docker-compose stop               : 컨테이너 그냥 중지
+
+
+    # docker-compose logs -f            : 컨테이너들의 로그를 계속해서 읽기
+    # docker rmi -f $(docker ps -a -q)  : 이미지 전체 삭제
