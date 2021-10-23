@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11:alpine-jre
+FROM openjdk:11.0.13-jre-slim
 
 VOLUME /tmp
 ARG JAR_FILE=build/libs/*.jar
@@ -21,7 +21,7 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 # docker build -t backend-img .
 
 # docker run -it --name backend-con -p 9020:9020 backend-img
-# docker run -it --name backend-con -p 9020:9020 --network todo-net backend-img
+# docker run -it --rm --name backend-con -p 9020:9020 --network todo-net backend-img
 # docker run -it --name backend-con -p 9020:9020 --network todo-net -e MYSQL_HOST=db -e MYSQL_USER=seung -e MYSQL_PASSWORD=1234 -e MYSQL_DB=todoDB backend-img
 
 
@@ -35,6 +35,7 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 # docker network ls
 # docker network inspect todo-net
 # docker network connect todo-net backend-con
+
 # docker network disconnect bridge frontend-con
 
 # -i -t는 attach 모드. 

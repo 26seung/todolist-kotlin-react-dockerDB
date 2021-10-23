@@ -74,3 +74,21 @@ Docker 컨테이너(container)는 격리된 환경에서 돌아가기 때문에 
 
 - ex. `docker run --name backend-con -p 9020:9020 --network todo-net -d backend-img`   
   이런 명령 형식 으로 한번에 실행과 네트워크 연결이 가능
+  
+
+
+## 오류해결
+Dockerfile 로 스프링부트 실행시 다음과 같은 데이터베이스 연결 에러 가 발생하였는데   
+![image](https://user-images.githubusercontent.com/79305451/138560381-a4172d7f-4ac0-41f6-a819-096af9308b45.png)  
+
+Dockerfile 내부 이미지 문제였던것 같다..  
+![image](https://user-images.githubusercontent.com/79305451/138560411-8d43b175-56d3-46ad-a0aa-354931781c7c.png)
+
+`FROM openjdk:11.0.13-jre-slim` 으로 변경하였더니 정상 작동한다.  
+
+
+
+## 배포과정
+
+
+

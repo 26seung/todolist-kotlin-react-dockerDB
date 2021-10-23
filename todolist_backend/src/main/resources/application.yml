@@ -2,11 +2,10 @@ server:
   port: 9020
 spring:
   datasource:
-    url: jdbc:mysql://db:3306/todoDB?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&characterEncoding=utf8&autoReconnection=true
-    username: seung
-    password: 1234
+    url: jdbc:mysql://todo-mysql-test.c2cbv6ov8nd5.ap-northeast-2.rds.amazonaws.com:3306/TEST?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&characterEncoding=utf8&autoReconnection=true
+    username: user
+    password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
-    initialization-mode: always
   jpa:
     hibernate:
       ddl-auto: create
