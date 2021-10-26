@@ -1,25 +1,14 @@
 version: "3"
 services:
-  db:
-    restart: always
-    image: mysql/mysql-server:8.0.17
-    ports: 
-      - "3306:3306"    
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE : todoDB
-      MYSQL_USER: seung
-      MYSQL_PASSWORD: 1234
-    networks: 
-      - todo-net
-
   backend:
     restart: always
     build: ./todolist_backend/.
     ports: 
       - "9020:9020"
-    depends_on:
-      - db
+    environment:
+            SPRING_DATASOURCE_URL: jdbc:mysql://todo-mysql-test.c2cbv6ov8nd5.ap-northeast-2.rds.amazonaws.com:3306/TEST?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&characterEncoding=utf8&autoReconnection=true
+            SPRING_DATASOURCE_USERNAME: user
+            SPRING_DATASOURCE_PASSWORD: password
     networks: 
       - todo-net
 
