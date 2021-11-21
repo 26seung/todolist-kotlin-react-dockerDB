@@ -1,23 +1,29 @@
-# nginx 이미지를 사용합니다. 뒤에 tag가 없으면 latest 를 사용합니다.
-FROM nginx:1.21.3-alpine
+# Node JS
+FROM node:15.1.0-alpine as build
 
-# root 에 app 폴더를 생성
-RUN mkdir /app
-
-# work dir 고정
+# 앱 디렉터리 생성
 WORKDIR /app
 
-# work dir 에 build 폴더 생성 /app/build
-RUN mkdir ./build
+ENV PATH /app/node_modules/.bin:$PATH
+# 앱 의존성 설치
+# 가능한 경우(npm@5+) package.json과 package-lock.json을 모두 복사하기 위해
+# 와일드카드를 사용
+COPY package*.json /app/package.json
+RUN npm install --legacy-peer-deps
+RUN npm install react-scripts@4.0.3 -g --legacy-peer-deps
+COPY . /app
+RUN npm run build
 
-# host pc의 현재경로의 build 폴더를 workdir 의 build 폴더로 복사
-ADD ./build ./build
+# Nginx 
+FROM nginx:1.21.3-alpine
 
 # nginx 의 default.conf 를 삭제
-RUN rm /etc/nginx/conf.d/default.conf
+RUN rm -rf /etc/nginx/conf.d
 
 # host pc 의 nginx.conf 를 아래 경로에 복사
-COPY ./nginx.conf /etc/nginx/conf.d
+COPY conf /etc/nginx
+
+COPY --from=build /app/build /usr/share/nginx/html
 
 # 80 포트 오픈
 EXPOSE 80
@@ -30,7 +36,7 @@ CMD ["nginx", "-g", "daemon off;"]
 # docker rm -f $(docker ps -a -q)
 
 # docker build -t frontend-img .
-# docker run --name frontend-con -p 3000:80 -d frontend-img
+# docker run --name frontend-con -p 80:80 -d frontend-img
 # docker run --name frontend-con -v ${pwd}:/usr/src/app -p 3000:80 -d frontend-img
 
 
